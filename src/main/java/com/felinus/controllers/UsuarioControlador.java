@@ -1,7 +1,9 @@
 package com.felinus.controllers;
 
+import com.felinus.models.Cliente;
 import com.felinus.models.Empleado;
 import com.felinus.models.Usuario;
+import com.felinus.service.ClienteService;
 import com.felinus.service.EmpleadoService;
 import com.felinus.service.UsuarioServicio;
 import org.slf4j.Logger;
@@ -24,20 +26,31 @@ public class UsuarioControlador {
     @Autowired
     private EmpleadoService empleadoService;
 
+    @Autowired
+    private ClienteService clienteService;
+
     @GetMapping("/usuarios")
     public List<Usuario> obtenerUsuarios(){
         List<Usuario> productos = usuarioServicio.listarUsuarios();
-        logger.info("usuarios obtenidos: ");
-        productos.forEach( producto -> logger.info(producto.toString()));
+        logger.info("Usuarios obtenidos: ");
+        productos.forEach( usuario -> logger.info(usuario.toString()));
         return productos;
     }
 
     @GetMapping("/empleados")
     public List<Empleado> obtenerEmpleados(){
-        List<Empleado> empleados = empleadoService.listarUsuarios();
-        logger.info("usuarios obtenidos: ");
+        List<Empleado> empleados = empleadoService.listarEmpleados();
+        logger.info("Empleados obtenidos: ");
         empleados.forEach( empleado -> logger.info(empleado.toString()));
         return empleados;
+    }
+
+    @GetMapping("/clientes")
+    public List<Cliente> obtenerCliente(){
+        List<Cliente> clientes = clienteService.listarClientes();
+        logger.info("Clientes obtenidos: ");
+        clientes.forEach( empleado -> logger.info(empleado.toString()));
+        return clientes;
     }
 
     @PostMapping("/usuarios")

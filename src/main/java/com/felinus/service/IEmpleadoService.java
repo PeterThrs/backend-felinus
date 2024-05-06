@@ -1,14 +1,16 @@
 package com.felinus.service;
 
 import com.felinus.models.Empleado;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface IEmpleadoService{
 
-    public List<Empleado> listarUsuarios();
-    public Empleado buscarUsuarioPorId(Integer idUsuario);
-    public Empleado guardarUsuario(Empleado empleado);
-    public void eliminarUsuarioPorId(Integer idUsuario);
+    public List<Empleado> listarEmpleados();
+    public Empleado buscarEmpleadoPorId(Integer idEmpleado);
+    public Empleado guardarEmpleado(Empleado empleado);
+    public void eliminarEmpleadoPorId(Integer idEmpleado);
 
 }
