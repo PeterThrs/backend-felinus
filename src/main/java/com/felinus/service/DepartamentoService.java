@@ -19,17 +19,17 @@ public class DepartamentoService implements IDepartamentoService{
     }
 
     @Override
-    public Departamento buscarClientePorId(Integer idDepartamento) {
+    public Departamento buscarDepartamentoPorId(Integer idDepartamento) {
         return this.departamentoRepositorio.findById(idDepartamento).orElse(null);
     }
 
     @Override
-    public Departamento guardarCliente(Departamento departamento) {
+    public Departamento guardarDepartamento(Departamento departamento) {
         return this.departamentoRepositorio.save(departamento);
     }
 
     @Override
-    public void eliminarClientePorId(Integer idDepartamento) {
+    public void eliminarDepartamentoPorId(Integer idDepartamento) {
         this.departamentoRepositorio.deleteById(idDepartamento);
     }
 }

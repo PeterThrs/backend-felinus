@@ -1,6 +1,9 @@
 package com.felinus.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +17,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idDepto")
 public class Departamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +25,10 @@ public class Departamento {
     private String nombre;
     private String descripcion;
 
-    @JsonIgnore
+
     @ManyToMany(mappedBy = "departamentos")
+//    @JsonBackReference
+//    @JsonIgnore
     private List<Empleado> empleados;
 
     // En la clase Departamento
