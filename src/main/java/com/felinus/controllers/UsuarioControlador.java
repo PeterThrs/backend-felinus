@@ -58,14 +58,12 @@ public class UsuarioControlador {
         }
     }
 
-    //no esta funcionando
     @PostMapping(path = "/empleados", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Empleado agregarEmpleado(@RequestBody Empleado empleado){
         logger.info("Empleado A agregar: " + empleado);
         return this.empleadoService.guardarEmpleado(empleado);
     }
 
-    //no esta funcionando
     @PutMapping(path = "/empleados/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Empleado> actualizarEmpleado(@PathVariable int id, @RequestBody Empleado empleadoRecibido){
         Empleado empleado = this.empleadoService.buscarEmpleadoPorId(id);
@@ -119,14 +117,12 @@ public class UsuarioControlador {
         }
     }
 
-    //no esta funcionando
     @PostMapping(path = "/clientes", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Cliente agregarCliente(@RequestBody Cliente cliente){
         logger.info("Cliente a agregar: " + cliente);
         return this.clienteService.guardarCliente(cliente);
     }
 
-    //no esta funcionando
     @PutMapping(path = "/clientes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable int id, @RequestBody Cliente clienteRecibido){
         Cliente cliente = this.clienteService.buscarClientePorId(id);
