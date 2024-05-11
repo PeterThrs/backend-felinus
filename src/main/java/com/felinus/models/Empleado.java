@@ -1,40 +1,36 @@
 package com.felinus.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "idUsuario")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idUsuario")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idUsuario")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Empleado extends Usuario{
-
-//    @OneToOne
-//    @JoinColumn(name = "idUsuario")
-//    private Usuario user;
 
     private String usuario;
     private String password;
-    private LocalDate fechaAlta;
+    private Date fechaAlta;
     private Boolean activo;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "DeptoEmpleado",
             joinColumns = @JoinColumn(name = "idEmpleado"),
             inverseJoinColumns = @JoinColumn(name = "idDepto"))
 //    @JsonManagedReference //referencia padre
-    private List<Departamento> departamentos;
+    Set<Departamento> departamentos = new HashSet<>();
 
     @Override
     public String toString() {

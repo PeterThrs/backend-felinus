@@ -17,6 +17,8 @@ import java.util.Map;
 @RestController
 //http:/localhost:8080/felinus-app
 @RequestMapping("felinus-app")
+//configuramos para que angular pueda realizar peticiones a nuestro backend
+@CrossOrigin(value="http://localhost:4200")
 public class UsuarioControlador {
 
     private static final Logger logger = LoggerFactory.getLogger(UsuarioControlador.class);
@@ -59,9 +61,9 @@ public class UsuarioControlador {
     }
 
     @PostMapping(path = "/empleados", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Empleado agregarEmpleado(@RequestBody Empleado empleado){
+    public ResponseEntity<Empleado> agregarEmpleado(@RequestBody Empleado empleado){
         logger.info("Empleado A agregar: " + empleado);
-        return this.empleadoService.guardarEmpleado(empleado);
+        return ResponseEntity.ok(this.empleadoService.guardarEmpleado(empleado));
     }
 
     @PutMapping(path = "/empleados/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

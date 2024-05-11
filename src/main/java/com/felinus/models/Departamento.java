@@ -1,23 +1,20 @@
 package com.felinus.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idDepto")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idDepto")
 public class Departamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +22,10 @@ public class Departamento {
     private String nombre;
     private String descripcion;
 
-
-    @ManyToMany(mappedBy = "departamentos")
-//    @JsonBackReference
+    //    @JsonBackReference
 //    @JsonIgnore
-    private List<Empleado> empleados;
+    @ManyToMany(mappedBy = "departamentos", cascade = CascadeType.MERGE)
+    private Set<Empleado> empleados = new HashSet<>();
 
     // En la clase Departamento
     @Override
