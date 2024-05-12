@@ -24,7 +24,7 @@ public class Departamento {
 
     //    @JsonBackReference
 //    @JsonIgnore
-    @ManyToMany(mappedBy = "departamentos", cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Set<Empleado> empleados = new HashSet<>();
 
     // En la clase Departamento
