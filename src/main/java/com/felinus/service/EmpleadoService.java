@@ -14,22 +14,22 @@ public class EmpleadoService implements IEmpleadoService{
     private EmpleadoRepositorio empleadoRepositorio;
 
     @Override
-    public List<Empleado> listarUsuarios() {
+    public List<Empleado> listarEmpleados() {
         return this.empleadoRepositorio.findAll();
     }
 
     @Override
-    public Empleado buscarUsuarioPorId(Integer idUsuario) {
-        return null;
+    public Empleado buscarEmpleadoPorId(Integer idEmpleado) {
+        return this.empleadoRepositorio.findById(idEmpleado).orElse(null);
     }
 
     @Override
-    public Empleado guardarUsuario(Empleado empleado) {
-        return null;
+    public Empleado guardarEmpleado(Empleado empleado) {
+        return this.empleadoRepositorio.save(empleado);
     }
 
     @Override
-    public void eliminarUsuarioPorId(Integer idUsuario) {
-
+    public void eliminarEmpleadoPorId(Integer idEmpleado) {
+        this.empleadoRepositorio.deleteById(idEmpleado);
     }
 }

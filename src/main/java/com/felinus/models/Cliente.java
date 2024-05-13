@@ -15,7 +15,7 @@ public class Cliente extends Usuario{
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Integer idCliente;
     private Integer totalCompras;
-    private Integer direccionEntrega;
+    private String direccionEntrega;
 
 //    @OneToOne
 //    @JoinColumn(name = "idUsuario")
