@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-//@PrimaryKeyJoinColumn(referencedColumnName = "id_cliente_usuario")
+@PrimaryKeyJoinColumn(name = "idUsuario")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
