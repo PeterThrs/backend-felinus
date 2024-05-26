@@ -1,5 +1,7 @@
 package com.felinus.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.felinus.serialization.BlobDeserializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +29,7 @@ public class Prenda {
     private String observaciones;
 
     @Lob
+    @JsonDeserialize(using = BlobDeserializer.class)
     private Blob logo;
     @Lob
     private Blob resultado;
