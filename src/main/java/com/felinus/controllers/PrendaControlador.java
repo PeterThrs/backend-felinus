@@ -86,7 +86,6 @@ public class PrendaControlador {
         prenda.setCantidad(prendaRecibida.getCantidad());
         prenda.setPrecio(prendaRecibida.getPrecio());
         prenda.setObservaciones(prendaRecibida.getObservaciones());
-        prenda.setLogo(prendaRecibida.getLogo());
 
         this.prendaService.guardarPrenda(prenda);
         return ResponseEntity.ok(prenda);

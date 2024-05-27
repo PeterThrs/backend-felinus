@@ -1,9 +1,12 @@
 package com.felinus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Blob;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
@@ -21,5 +24,9 @@ public class Usuario {
     private String domicilioActual;
     private String telefono;
     private String email;
+
+    @Lob
+    @JsonIgnore
+    private Blob imgUsuario;
 
 }
