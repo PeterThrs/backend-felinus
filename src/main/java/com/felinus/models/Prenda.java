@@ -1,5 +1,6 @@
 package com.felinus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +18,6 @@ public class Prenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPrenda;
 
-    //@OneToOne(mappedBy = "prenda")
-    //private Orden orden;
-
     private String titulo;
     private String descripcion;
     private int cantidad;
@@ -27,7 +25,9 @@ public class Prenda {
     private String observaciones;
 
     @Lob
+    @JsonIgnore
     private Blob logo;
+    @JsonIgnore
     @Lob
     private Blob resultado;
 
