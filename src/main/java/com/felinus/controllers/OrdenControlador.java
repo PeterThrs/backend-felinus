@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 //http:/localhost:8080/felinus-app
@@ -93,7 +94,12 @@ public class OrdenControlador {
             throw new RecursoNoEncontradoException("No se encontro el id: " + id);
         }
         orden.setCliente(ordenRecibida.getCliente());
-        orden.setEmpleado(ordenRecibida.getEmpleado());
+
+        List<Empleado> bdEmpleados = this.empleadoService.listarEmpleados();
+        Empleado emp = ordenRecibida.getEmpleado();
+        if(bdEmpleados.contains(emp)){
+            orden.setEmpleado(ordenRecibida.getEmpleado());
+        }
         orden.setPrenda(ordenRecibida.getPrenda());
         orden.setFechaInicio(ordenRecibida.getFechaInicio());
         orden.setFechaEntrega(ordenRecibida.getFechaEntrega());

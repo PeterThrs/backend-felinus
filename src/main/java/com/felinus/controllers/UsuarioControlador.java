@@ -10,9 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @RestController
 //http:/localhost:8080/felinus-app
@@ -31,6 +30,9 @@ public class UsuarioControlador {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private DepartamentoService departamentoService;
 
     //ENDPOINTS USUARIOS
     @GetMapping("/usuarios")
@@ -63,6 +65,23 @@ public class UsuarioControlador {
     @PostMapping(path = "/empleados", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Empleado> agregarEmpleado(@RequestBody Empleado empleado){
         logger.info("Empleado A agregar: " + empleado);
+
+        Set<Departamento> deptoReb = empleado.getDepartamentos();
+        List<Departamento> BdDeptos = departamentoService.listarDepartamentos();
+
+        if (!deptoReb.isEmpty()) {
+            Departamento deptoDelSet = deptoReb.iterator().next();
+
+            for (Departamento depto : BdDeptos) {
+                if (depto.getIdDepto().equals(deptoDelSet.getIdDepto())) {
+                    deptoDelSet.setNombre(depto.getNombre());
+                    deptoDelSet.setDescripcion(depto.getDescripcion());
+                    break;
+                }
+            }
+        }
+        empleado.setDepartamentos(deptoReb);
+
         return ResponseEntity.ok(this.empleadoService.guardarEmpleado(empleado));
     }
 
@@ -83,6 +102,26 @@ public class UsuarioControlador {
         empleado.setPassword(empleadoRecibido.getPassword());
         empleado.setFechaAlta(empleadoRecibido.getFechaAlta());
         empleado.setActivo(empleadoRecibido.getActivo());
+
+        Set<Departamento> deptoReb = empleadoRecibido.getDepartamentos();
+        List<Departamento> BdDeptos = departamentoService.listarDepartamentos();
+
+        if (!deptoReb.isEmpty()) {
+            Departamento deptoDelSet = deptoReb.iterator().next();
+            logger.info("id depto: " + deptoDelSet.getIdDepto());
+
+            for (Departamento depto : BdDeptos) {
+                if (depto.getIdDepto().equals(deptoDelSet.getIdDepto())) {
+                    deptoDelSet.setNombre(depto.getNombre());
+                    deptoDelSet.setDescripcion(depto.getDescripcion());
+                    break;
+                }
+            }
+        }
+
+        empleadoRecibido.setDepartamentos(deptoReb);
+
+        empleado.setDepartamentos(empleadoRecibido.getDepartamentos());
 
         this.empleadoService.guardarEmpleado(empleado);
         return ResponseEntity.ok(empleado);
@@ -137,7 +176,6 @@ public class UsuarioControlador {
         cliente.setDomicilioActual(clienteRecibido.getDomicilioActual());
         cliente.setTelefono(clienteRecibido.getTelefono());
         cliente.setEmail(clienteRecibido.getEmail());
-
         cliente.setTotalCompras(clienteRecibido.getTotalCompras());
         cliente.setDireccionEntrega(clienteRecibido.getDireccionEntrega());
 
