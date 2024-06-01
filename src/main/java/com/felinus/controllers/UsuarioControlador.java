@@ -1,5 +1,6 @@
 package com.felinus.controllers;
 
+import com.felinus.exceptions.DepartamentoNoValidoException;
 import com.felinus.exceptions.RecursoNoEncontradoException;
 import com.felinus.models.*;
 import com.felinus.service.*;
@@ -52,49 +53,41 @@ public class UsuarioControlador {
         return empleados;
     }
 
-    @GetMapping("/empleados/{id}")
-    public ResponseEntity<Empleado> obtenerEmpleadoPorId(@PathVariable int id){
-        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(id);
+    @GetMapping("/empleados/{curp}")
+    public ResponseEntity<Empleado> obtenerEmpleadoPorId(@PathVariable String curp){
+        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(curp);
         if(empleado != null) {
             return ResponseEntity.ok(empleado);
         } else {
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
     }
 
-    @PostMapping(path = "/empleados", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/empleados")
     public ResponseEntity<Empleado> agregarEmpleado(@RequestBody Empleado empleado){
         logger.info("Empleado A agregar: " + empleado);
 
-        Set<Departamento> deptoReb = empleado.getDepartamentos();
-        List<Departamento> BdDeptos = departamentoService.listarDepartamentos();
+        Departamento depto = this.departamentoService.buscarDepartamentoPorId(empleado.getDepartamento().getNombre());
 
-        if (!deptoReb.isEmpty()) {
-            Departamento deptoDelSet = deptoReb.iterator().next();
-
-            for (Departamento depto : BdDeptos) {
-                if (depto.getIdDepto().equals(deptoDelSet.getIdDepto())) {
-                    deptoDelSet.setNombre(depto.getNombre());
-                    deptoDelSet.setDescripcion(depto.getDescripcion());
-                    break;
-                }
-            }
+        if(depto != null){
+            empleado.setDepartamento(depto);
+            return ResponseEntity.ok(this.empleadoService.guardarEmpleado(empleado));
         }
-        empleado.setDepartamentos(deptoReb);
 
-        return ResponseEntity.ok(this.empleadoService.guardarEmpleado(empleado));
+        throw new DepartamentoNoValidoException("El departamento no existe en la BD" + empleado.getDepartamento().getNombre());
+
     }
 
-    @PutMapping(path = "/empleados/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Empleado> actualizarEmpleado(@PathVariable int id, @RequestBody Empleado empleadoRecibido){
-        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(id);
+    @PutMapping(path = "/empleados/{curp}")
+    public ResponseEntity<Empleado> actualizarEmpleado(@PathVariable String curp, @RequestBody Empleado empleadoRecibido){
+        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(curp);
         if(empleado == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
         empleado.setNombre(empleadoRecibido.getNombre());
         empleado.setApPaterno(empleadoRecibido.getApPaterno());
         empleado.setApMaterno(empleadoRecibido.getApMaterno());
-        empleado.setDomicilioActual(empleadoRecibido.getDomicilioActual());
+        empleado.setDomicilio(empleadoRecibido.getDomicilio());
         empleado.setTelefono(empleadoRecibido.getTelefono());
         empleado.setEmail(empleadoRecibido.getEmail());
 
@@ -103,37 +96,23 @@ public class UsuarioControlador {
         empleado.setFechaAlta(empleadoRecibido.getFechaAlta());
         empleado.setActivo(empleadoRecibido.getActivo());
 
-        Set<Departamento> deptoReb = empleadoRecibido.getDepartamentos();
-        List<Departamento> BdDeptos = departamentoService.listarDepartamentos();
+        Departamento depto = this.departamentoService.buscarDepartamentoPorId(empleadoRecibido.getDepartamento().getNombre());
 
-        if (!deptoReb.isEmpty()) {
-            Departamento deptoDelSet = deptoReb.iterator().next();
-            logger.info("id depto: " + deptoDelSet.getIdDepto());
-
-            for (Departamento depto : BdDeptos) {
-                if (depto.getIdDepto().equals(deptoDelSet.getIdDepto())) {
-                    deptoDelSet.setNombre(depto.getNombre());
-                    deptoDelSet.setDescripcion(depto.getDescripcion());
-                    break;
-                }
-            }
+        if(depto != null){
+            empleado.setDepartamento(depto);
         }
-
-        empleadoRecibido.setDepartamentos(deptoReb);
-
-        empleado.setDepartamentos(empleadoRecibido.getDepartamentos());
 
         this.empleadoService.guardarEmpleado(empleado);
         return ResponseEntity.ok(empleado);
     }
 
-    @DeleteMapping("/empleados/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarEmpleado(@PathVariable int id){
-        Empleado empleado = empleadoService.buscarEmpleadoPorId(id);
+    @DeleteMapping("/empleados/{curp}")
+    public ResponseEntity<Map<String, Boolean>> eliminarEmpleado(@PathVariable String curp){
+        Empleado empleado = empleadoService.buscarEmpleadoPorId(curp);
         if(empleado == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
-        this.empleadoService.eliminarEmpleadoPorId(empleado.getIdUsuario());
+        this.empleadoService.eliminarEmpleadoPorId(empleado.getCurp());
         Map<String, Boolean> respuesta = new HashMap<>();
         respuesta.put("eliminado", Boolean.TRUE);
         return ResponseEntity.ok(respuesta);
@@ -148,48 +127,47 @@ public class UsuarioControlador {
         return clientes;
     }
 
-    @GetMapping("/clientes/{id}")
-    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable int id){
-        Cliente cliente = this.clienteService.buscarClientePorId(id);
+    @GetMapping("/clientes/{curp}")
+    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable String curp){
+        Cliente cliente = this.clienteService.buscarClientePorId(curp);
         if(cliente != null) {
             return ResponseEntity.ok(cliente);
         } else {
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
     }
 
-    @PostMapping(path = "/clientes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/clientes")
     public Cliente agregarCliente(@RequestBody Cliente cliente){
         logger.info("Cliente a agregar: " + cliente);
         return this.clienteService.guardarCliente(cliente);
     }
 
-    @PutMapping(path = "/clientes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Cliente> actualizarCliente(@PathVariable int id, @RequestBody Cliente clienteRecibido){
-        Cliente cliente = this.clienteService.buscarClientePorId(id);
+    @PutMapping(path = "/clientes/{curp}")
+    public ResponseEntity<Cliente> actualizarCliente(@PathVariable String curp, @RequestBody Cliente clienteRecibido){
+        Cliente cliente = this.clienteService.buscarClientePorId(curp);
         if(cliente == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
         cliente.setNombre(clienteRecibido.getNombre());
         cliente.setApPaterno(clienteRecibido.getApPaterno());
         cliente.setApMaterno(clienteRecibido.getApMaterno());
-        cliente.setDomicilioActual(clienteRecibido.getDomicilioActual());
+        cliente.setDomicilio(clienteRecibido.getDomicilio());
         cliente.setTelefono(clienteRecibido.getTelefono());
         cliente.setEmail(clienteRecibido.getEmail());
-        cliente.setTotalCompras(clienteRecibido.getTotalCompras());
         cliente.setDireccionEntrega(clienteRecibido.getDireccionEntrega());
 
         this.clienteService.guardarCliente(cliente);
         return ResponseEntity.ok(cliente);
     }
 
-    @DeleteMapping("/clientes/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarCliente(@PathVariable int id){
-        Cliente cliente = clienteService.buscarClientePorId(id);
+    @DeleteMapping("/clientes/{curp}")
+    public ResponseEntity<Map<String, Boolean>> eliminarCliente(@PathVariable String curp){
+        Cliente cliente = clienteService.buscarClientePorId(curp);
         if(cliente == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
-        this.clienteService.eliminarClientePorId(cliente.getIdUsuario());
+        this.clienteService.eliminarClientePorId(cliente.getCurp());
         Map<String, Boolean> respuesta = new HashMap<>();
         respuesta.put("eliminado", Boolean.TRUE);
         return ResponseEntity.ok(respuesta);

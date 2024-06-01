@@ -9,8 +9,8 @@ import java.util.List;
 public interface IEmpleadoService{
 
     public List<Empleado> listarEmpleados();
-    public Empleado buscarEmpleadoPorId(Integer idEmpleado);
+    public Empleado buscarEmpleadoPorId(String curp);
     public Empleado guardarEmpleado(Empleado empleado);
-    public void eliminarEmpleadoPorId(Integer idEmpleado);
+    public void eliminarEmpleadoPorId(String curp);
 
 }

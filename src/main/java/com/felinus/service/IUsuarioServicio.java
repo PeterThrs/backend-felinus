@@ -7,7 +7,8 @@ import java.util.List;
 public interface IUsuarioServicio {
 
     public List<Usuario> listarUsuarios();
-    public Usuario buscarUsuarioPorId(Integer idUsuario);
+    public Usuario buscarUsuarioPorId(String curp);
     public Usuario guardarUsuario(Usuario usuario);
-    public void eliminarUsuarioPorId(Integer idUsuario);
+    public void eliminarUsuarioPorId(String curp);
+
 }

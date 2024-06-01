@@ -30,49 +30,48 @@ public class DepartamentoControlador {
     private DepartamentoService departamentoService;
 
     @GetMapping("/departamentos")
-    public List<Departamento> obtenerUsuarios(){
-        List<Departamento> productos = this.departamentoService.listarDepartamentos();
-        logger.info("Usuarios obtenidos: ");
-        productos.forEach( usuario -> logger.info(usuario.toString()));
-        return productos;
+    public List<Departamento> obtenerDepartamentos(){
+        List<Departamento> departamentos = this.departamentoService.listarDepartamentos();
+        logger.info("Departamentos obtenidos: ");
+        departamentos.forEach( depto -> logger.info(depto.toString()));
+        return departamentos;
     }
 
-    @GetMapping("/departamentos/{id}")
-    public ResponseEntity<Departamento> obtenerDepartamentoPorId(@PathVariable int id){
-        Departamento departamento = this.departamentoService.buscarDepartamentoPorId(id);
+    @GetMapping("/departamentos/{nombre}")
+    public ResponseEntity<Departamento> obtenerDepartamentoPorId(@PathVariable String nombre){
+        Departamento departamento = this.departamentoService.buscarDepartamentoPorId(nombre);
         if(departamento != null) {
             return ResponseEntity.ok(departamento);
         } else {
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el depto: " + nombre );
         }
     }
 
-    @PostMapping(path = "/departamentos", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/departamentos")
     public ResponseEntity<Departamento> agregarDepartamento(@RequestBody Departamento departamento){
         logger.info("Departamento a agregar: " + departamento);
         return ResponseEntity.ok(this.departamentoService.guardarDepartamento(departamento));
     }
 
-    @PutMapping(path = "/departamentos/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Departamento> actualizarDepartamento(@PathVariable int id, @RequestBody Departamento deptoRecibido){
-        Departamento departamento = this.departamentoService.buscarDepartamentoPorId(id);
+    @PutMapping(path = "/departamentos/{nombre}")
+    public ResponseEntity<Departamento> actualizarDepartamento(@PathVariable String nombre, @RequestBody Departamento deptoRecibido){
+        Departamento departamento = this.departamentoService.buscarDepartamentoPorId(nombre);
         if(departamento == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + nombre);
         }
-        departamento.setNombre(deptoRecibido.getNombre());
         departamento.setDescripcion(deptoRecibido.getDescripcion());
 
         this.departamentoService.guardarDepartamento(departamento);
         return ResponseEntity.ok(departamento);
     }
 
-    @DeleteMapping("/departamentos/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarDepartamento(@PathVariable int id){
-        Departamento departamento = this.departamentoService.buscarDepartamentoPorId(id);
+    @DeleteMapping("/departamentos/{nombre}")
+    public ResponseEntity<Map<String, Boolean>> eliminarDepartamento(@PathVariable String nombre){
+        Departamento departamento = this.departamentoService.buscarDepartamentoPorId(nombre);
         if(departamento == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + nombre);
         }
-        this.departamentoService.eliminarDepartamentoPorId(departamento.getIdDepto());
+        this.departamentoService.eliminarDepartamentoPorId(departamento.getNombre());
         Map<String, Boolean> respuesta = new HashMap<>();
         respuesta.put("eliminado", Boolean.TRUE);
         return ResponseEntity.ok(respuesta);

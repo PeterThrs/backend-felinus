@@ -19,8 +19,8 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Cliente buscarClientePorId(Integer idCliente) {
-        return this.clienteRepositorio.findById(idCliente).orElse(null);
+    public Cliente buscarClientePorId(String curp) {
+        return this.clienteRepositorio.findById(curp).orElse(null);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public void eliminarClientePorId(Integer idCliente) {
-        this.clienteRepositorio.deleteById(idCliente);
+    public void eliminarClientePorId(String curp) {
+        this.clienteRepositorio.deleteById(curp);
     }
 }

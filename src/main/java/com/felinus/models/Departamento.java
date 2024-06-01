@@ -17,24 +17,8 @@ import java.util.Set;
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idDepto")
 public class Departamento {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idDepto;
     private String nombre;
     private String descripcion;
 
-    //    @JsonBackReference
-//    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private Set<Empleado> empleados = new HashSet<>();
-
-    // En la clase Departamento
-    @Override
-    public String toString() {
-        return "Departamento{" +
-                "idDepto=" + idDepto +
-                ", nombre='" + nombre + '\'' +
-                ", empleados=" + empleados + // Si empleados es una colección, evita llamar a toString directamente
-                '}';
-    }
 
 }

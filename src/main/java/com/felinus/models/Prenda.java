@@ -23,6 +23,7 @@ public class Prenda {
     private int cantidad;
     private double precio;
     private String observaciones;
+    private Boolean entregado;
 
     @Lob
     @JsonIgnore

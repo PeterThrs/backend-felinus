@@ -24,7 +24,7 @@ import java.sql.SQLException;
 @CrossOrigin(value="http://localhost:4200")
 public class ImagenControlador {
 
-    private static final Logger logger = LoggerFactory.getLogger(AlmacenControlador.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImagenControlador.class);
 
     @Autowired
     private PrendaService prendaService;

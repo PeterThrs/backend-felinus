@@ -15,13 +15,11 @@ import java.sql.Blob;
 @AllArgsConstructor
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id_usuario")
-    private Integer idUsuario;
+    private String curp;
     private String nombre;
     private String apPaterno;
     private String apMaterno;
-    private String domicilioActual;
+    private String domicilio;
     private String telefono;
     private String email;
 

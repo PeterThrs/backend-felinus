@@ -19,17 +19,17 @@ public class InventarioService implements IInventarioService {
     }
 
     @Override
-    public Inventario buscarMaterialPorId(Integer idPrenda) {
-        return this.inventarioRepositorio.findById(idPrenda).orElse(null);
+    public Inventario buscarMaterialPorId(String codigo) {
+        return this.inventarioRepositorio.findById(codigo).orElse(null);
     }
 
     @Override
-    public Inventario guardarMaterial(Inventario prenda) {
-        return this.inventarioRepositorio.save(prenda);
+    public Inventario guardarMaterial(Inventario material) {
+        return this.inventarioRepositorio.save(material);
     }
 
     @Override
-    public void eliminarMaterialPorId(Integer idPrenda) {
-        this.inventarioRepositorio.deleteById(idPrenda);
+    public void eliminarMaterialPorId(String codigo) {
+        this.inventarioRepositorio.deleteById(codigo);
     }
 }

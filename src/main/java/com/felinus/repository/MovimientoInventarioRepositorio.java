@@ -1,9 +1,9 @@
 package com.felinus.repository;
 
-import com.felinus.models.Inventario;
+import com.felinus.models.MovimientoInventario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InventarioRepositorio extends JpaRepository<Inventario, String> {
+public interface MovimientoInventarioRepositorio extends JpaRepository<MovimientoInventario, String> {
 }

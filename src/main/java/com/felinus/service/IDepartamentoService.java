@@ -7,7 +7,7 @@ import java.util.List;
 public interface IDepartamentoService {
 
     public List<Departamento> listarDepartamentos();
-    public Departamento buscarDepartamentoPorId(Integer idDepartamento);
+    public Departamento buscarDepartamentoPorId(String nombre);
     public Departamento guardarDepartamento(Departamento departamento);
-    public void eliminarDepartamentoPorId(Integer idDepartamento);
+    public void eliminarDepartamentoPorId(String nombre);
 }

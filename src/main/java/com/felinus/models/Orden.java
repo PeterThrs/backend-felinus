@@ -18,11 +18,11 @@ public class Orden {
     private Integer idOrden;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE) //muchas ordenes a un cliente
-    @JoinColumn(name = "id_cliente", referencedColumnName = "idUsuario")
+    @JoinColumn(name = "curp_cliente", referencedColumnName = "curp")
     private Cliente cliente;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_empleado", referencedColumnName = "idUsuario")
+    @JoinColumn(name = "curp_empleado", referencedColumnName = "curp")
     private Empleado empleado;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

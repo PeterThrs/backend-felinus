@@ -19,8 +19,8 @@ public class DepartamentoService implements IDepartamentoService{
     }
 
     @Override
-    public Departamento buscarDepartamentoPorId(Integer idDepartamento) {
-        return this.departamentoRepositorio.findById(idDepartamento).orElse(null);
+    public Departamento buscarDepartamentoPorId(String nombre) {
+        return this.departamentoRepositorio.findById(nombre).orElse(null);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class DepartamentoService implements IDepartamentoService{
     }
 
     @Override
-    public void eliminarDepartamentoPorId(Integer idDepartamento) {
-        this.departamentoRepositorio.deleteById(idDepartamento);
+    public void eliminarDepartamentoPorId(String nombre) {
+        this.departamentoRepositorio.deleteById(nombre);
     }
 }

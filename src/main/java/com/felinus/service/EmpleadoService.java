@@ -19,8 +19,8 @@ public class EmpleadoService implements IEmpleadoService{
     }
 
     @Override
-    public Empleado buscarEmpleadoPorId(Integer idEmpleado) {
-        return this.empleadoRepositorio.findById(idEmpleado).orElse(null);
+    public Empleado buscarEmpleadoPorId(String curp) {
+        return this.empleadoRepositorio.findById(curp).orElse(null);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class EmpleadoService implements IEmpleadoService{
     }
 
     @Override
-    public void eliminarEmpleadoPorId(Integer idEmpleado) {
-        this.empleadoRepositorio.deleteById(idEmpleado);
+    public void eliminarEmpleadoPorId(String curp) {
+        this.empleadoRepositorio.deleteById(curp);
     }
 }

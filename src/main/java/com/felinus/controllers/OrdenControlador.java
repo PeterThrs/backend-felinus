@@ -65,8 +65,8 @@ public class OrdenControlador {
     public ResponseEntity<Orden> agregarOrden(@RequestBody Orden orden){
         logger.info("Orden a agregar: " + orden);
         Prenda prenda = this.prendaService.buscarPrendaPorId(orden.getPrenda().getIdPrenda());
-        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(orden.getEmpleado().getIdUsuario());
-        Cliente cliente = this.clienteService.buscarClientePorId(orden.getCliente().getIdUsuario());
+        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(orden.getEmpleado().getCurp());
+        Cliente cliente = this.clienteService.buscarClientePorId(orden.getCliente().getCurp());
 
         if(prenda == null && empleado == null && cliente == null){
             throw new RecursoNoEncontradoException("No existe (cliente, empleado o prenda): ");
@@ -93,17 +93,19 @@ public class OrdenControlador {
         if(orden == null){
             throw new RecursoNoEncontradoException("No se encontro el id: " + id);
         }
-        orden.setCliente(ordenRecibida.getCliente());
 
-        List<Empleado> bdEmpleados = this.empleadoService.listarEmpleados();
-        Empleado emp = ordenRecibida.getEmpleado();
-        for(Empleado e: bdEmpleados){
-            if(e.getIdUsuario() == emp.getIdUsuario()){
-                orden.setEmpleado(e);
-                break;
-            }
+        Prenda prenda = this.prendaService.buscarPrendaPorId(ordenRecibida.getPrenda().getIdPrenda());
+        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(ordenRecibida.getEmpleado().getCurp());
+        Cliente cliente = this.clienteService.buscarClientePorId(ordenRecibida.getCliente().getCurp());
+
+        if(prenda == null && empleado == null && cliente == null){
+            throw new RecursoNoEncontradoException("No existe (cliente, empleado o prenda): ");
         }
-        orden.setPrenda(ordenRecibida.getPrenda());
+
+        orden.setPrenda(prenda);
+        orden.setEmpleado(empleado);
+        orden.setCliente(cliente);
+
         orden.setFechaInicio(ordenRecibida.getFechaInicio());
         orden.setFechaEntrega(ordenRecibida.getFechaEntrega());
         orden.setEtapa(ordenRecibida.getEtapa());

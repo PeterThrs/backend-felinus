@@ -35,17 +35,17 @@ public class ImagenUsuarioControlador {
     private ClienteService clienteService;
 
     // agregar img a empleado
-    @PutMapping(path = "/img-empleado/{id}")
+    @PutMapping(path = "/img-empleado/{curp}")
     public ResponseEntity<Empleado> agregarImgEmpleado(
-            @PathVariable int id,
+            @PathVariable String curp,
             HttpServletRequest request,
             @RequestParam("image") MultipartFile file
     ) throws IOException, SerialException, SQLException
     {
 
-        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(id);
+        Empleado empleado = this.empleadoService.buscarEmpleadoPorId(curp);
         if(empleado == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
 
         byte[] bytes = file.getBytes();
@@ -59,12 +59,12 @@ public class ImagenUsuarioControlador {
     }
 
     // obtner img de empleados
-    @GetMapping("/img-empleado/{id}")
+    @GetMapping("/img-empleado/{curp}")
     public ResponseEntity<byte[]> obtenerImgEmpleado(
-            @PathVariable int id) throws IOException, SQLException
+            @PathVariable String curp) throws IOException, SQLException
     {
         logger.info("Entramos al metodo par ala imagen: ");
-        Empleado empleado = empleadoService.buscarEmpleadoPorId(id);
+        Empleado empleado = empleadoService.buscarEmpleadoPorId(curp);
         byte [] imageBytes = null;
 
         imageBytes = empleado.getImgUsuario().getBytes(1,(int) empleado.getImgUsuario().length());
@@ -72,17 +72,17 @@ public class ImagenUsuarioControlador {
     }
 
     // agregar img a empleado
-    @PutMapping(path = "/img-cliente/{id}")
+    @PutMapping(path = "/img-cliente/{curp}")
     public ResponseEntity<Cliente> agregarImgCliente(
-            @PathVariable int id,
+            @PathVariable String curp,
             HttpServletRequest request,
             @RequestParam("image") MultipartFile file
     ) throws IOException, SerialException, SQLException
     {
 
-        Cliente cliente = this.clienteService.buscarClientePorId(id);
+        Cliente cliente = this.clienteService.buscarClientePorId(curp);
         if(cliente == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + curp);
         }
 
         byte[] bytes = file.getBytes();
@@ -96,12 +96,12 @@ public class ImagenUsuarioControlador {
     }
 
     // obtner img de empleados
-    @GetMapping("/img-cliente/{id}")
+    @GetMapping("/img-cliente/{curp}")
     public ResponseEntity<byte[]> obtenerImgCliente(
-            @PathVariable int id) throws IOException, SQLException
+            @PathVariable String curp) throws IOException, SQLException
     {
         logger.info("Entramos al metodo par ala imagen: ");
-        Cliente cliente = clienteService.buscarClientePorId(id);
+        Cliente cliente = clienteService.buscarClientePorId(curp);
         byte [] imageBytes = null;
 
         imageBytes = cliente.getImgUsuario().getBytes(1,(int) cliente.getImgUsuario().length());

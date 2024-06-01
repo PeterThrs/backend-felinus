@@ -19,7 +19,7 @@ public class UsuarioServicio implements IUsuarioServicio{
     }
 
     @Override
-    public Usuario buscarUsuarioPorId(Integer idUsuario) {
+    public Usuario buscarUsuarioPorId(String idUsuario) {
         return this.usuarioRepositorio.findById(idUsuario).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class UsuarioServicio implements IUsuarioServicio{
     }
 
     @Override
-    public void eliminarUsuarioPorId(Integer idUsuario) {
-        this.usuarioRepositorio.deleteById(idUsuario);
+    public void eliminarUsuarioPorId(String curp) {
+        this.usuarioRepositorio.deleteById(curp);
     }
 }

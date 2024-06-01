@@ -35,13 +35,13 @@ public class AlmacenControlador {
         return almacen;
     }
 
-    @GetMapping("/materiales/{id}")
-    public ResponseEntity<Inventario> obtenerMaterialPorId(@PathVariable int id){
-        Inventario material = this.inventarioService.buscarMaterialPorId(id);
+    @GetMapping("/materiales/{codigo}")
+    public ResponseEntity<Inventario> obtenerMaterialPorId(@PathVariable String codigo){
+        Inventario material = this.inventarioService.buscarMaterialPorId(codigo);
         if(material != null) {
             return ResponseEntity.ok(material);
         } else {
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + codigo);
         }
     }
 
@@ -51,27 +51,28 @@ public class AlmacenControlador {
         return ResponseEntity.ok(this.inventarioService.guardarMaterial(material));
     }
 
-    @PutMapping(path = "/materiales/{id}")
-    public ResponseEntity<Inventario> actualizarMaterial(@PathVariable int id, @RequestBody Inventario materialRecibido){
-        Inventario material = this.inventarioService.buscarMaterialPorId(id);
+    @PutMapping(path = "/materiales/{codigo}")
+    public ResponseEntity<Inventario> actualizarMaterial(@PathVariable String codigo, @RequestBody Inventario materialRecibido){
+        Inventario material = this.inventarioService.buscarMaterialPorId(codigo);
         if(material == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + codigo);
         }
         material.setNombre(materialRecibido.getNombre());
-        material.setMetros(materialRecibido.getMetros());
-        material.setDisponible(materialRecibido.isDisponible());
+        material.setDescripcion(materialRecibido.getDescripcion());
+        material.setUnidadMedida(materialRecibido.getUnidadMedida());
+        material.setCantidad(materialRecibido.getCantidad());
 
         this.inventarioService.guardarMaterial(material);
         return ResponseEntity.ok(material);
     }
 
-    @DeleteMapping("/materiales/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarMaterial(@PathVariable int id){
-        Inventario material = inventarioService.buscarMaterialPorId(id);
+    @DeleteMapping("/materiales/{codigo}")
+    public ResponseEntity<Map<String, Boolean>> eliminarMaterial(@PathVariable String codigo){
+        Inventario material = inventarioService.buscarMaterialPorId(codigo);
         if(material == null){
-            throw new RecursoNoEncontradoException("No se encontro el id: " + id);
+            throw new RecursoNoEncontradoException("No se encontro el id: " + codigo);
         }
-        this.inventarioService.eliminarMaterialPorId(material.getIdMaterial());
+        this.inventarioService.eliminarMaterialPorId(material.getCodigo());
         Map<String, Boolean> respuesta = new HashMap<>();
         respuesta.put("eliminado", Boolean.TRUE);
         return ResponseEntity.ok(respuesta);

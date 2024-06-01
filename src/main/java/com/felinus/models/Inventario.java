@@ -1,8 +1,6 @@
 package com.felinus.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class Inventario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idMaterial;
+    private String codigo;
     private String nombre;
-    private double metros;
-    private boolean disponible;
+    private String descripcion;
+    private String unidadMedida;
+    private double cantidad;
 }

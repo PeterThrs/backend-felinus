@@ -14,9 +14,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "idUsuario")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idUsuario")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@PrimaryKeyJoinColumn(name = "curp")
 public class Empleado extends Usuario{
 
     private String usuario;
@@ -24,13 +22,9 @@ public class Empleado extends Usuario{
     private Date fechaAlta;
     private Boolean activo;
 
-
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "DeptoEmpleado",
-            joinColumns = @JoinColumn(name = "idEmpleado"),
-            inverseJoinColumns = @JoinColumn(name = "idDepto"))
-//    @JsonManagedReference //referencia padre
-    Set<Departamento> departamentos = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "nombre", referencedColumnName = "nombre")
+    private Departamento departamento;
 
     @Override
     public String toString() {
