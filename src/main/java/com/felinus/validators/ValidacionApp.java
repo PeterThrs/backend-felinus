@@ -51,9 +51,9 @@ public class ValidacionApp {
         return matcher.matches();
     }
 
+
     private static final String PASSWORD_PATTERN =
             "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
-
 
     // Compila la expresión regular en un patrón
     private static final Pattern patternPass = Pattern.compile(PASSWORD_PATTERN);

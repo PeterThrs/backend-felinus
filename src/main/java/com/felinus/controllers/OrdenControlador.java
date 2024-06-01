@@ -97,8 +97,11 @@ public class OrdenControlador {
 
         List<Empleado> bdEmpleados = this.empleadoService.listarEmpleados();
         Empleado emp = ordenRecibida.getEmpleado();
-        if(bdEmpleados.contains(emp)){
-            orden.setEmpleado(ordenRecibida.getEmpleado());
+        for(Empleado e: bdEmpleados){
+            if(e.getIdUsuario() == emp.getIdUsuario()){
+                orden.setEmpleado(e);
+                break;
+            }
         }
         orden.setPrenda(ordenRecibida.getPrenda());
         orden.setFechaInicio(ordenRecibida.getFechaInicio());
