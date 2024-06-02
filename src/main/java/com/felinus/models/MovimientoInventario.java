@@ -26,4 +26,5 @@ public class MovimientoInventario {
     private String tipoMov;
     private Double cantidadMov;
     private String razon;
+    private String estado; //activo o cancelado
 }
