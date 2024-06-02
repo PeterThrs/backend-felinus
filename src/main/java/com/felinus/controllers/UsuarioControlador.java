@@ -7,7 +7,6 @@ import com.felinus.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +65,10 @@ public class UsuarioControlador {
     @PostMapping(path = "/empleados")
     public ResponseEntity<Empleado> agregarEmpleado(@RequestBody Empleado empleado){
         logger.info("Empleado A agregar: " + empleado);
+
+        if(empleado.getCurp().isEmpty()){
+            throw new RecursoNoEncontradoException("Es necesario indicar una curp" + empleado.getCurp());
+        }
 
         Departamento depto = this.departamentoService.buscarDepartamentoPorId(empleado.getDepartamento().getNombre());
 
