@@ -66,7 +66,8 @@ public class MovimientoInventarioControlador {
         if(empleado != null && material != null){
             movimiento.setEmpleado(empleado);
             movimiento.setInventario(material);
-            String clave = movimiento.getEmpleado().getCurp() + "_" +
+            String curp = movimiento.getEmpleado().getCurp().substring(0,4);
+            String clave = curp + "_" +
                     movimiento.getInventario().getCodigo()  + "_" +
                     Generador.generateAlphanumeric();
             movimiento.setClave(clave);
@@ -96,6 +97,7 @@ public class MovimientoInventarioControlador {
         movimiento.setTipoMov(movimientoRecibido.getTipoMov());
         movimiento.setCantidadMov(movimientoRecibido.getCantidadMov());
         movimiento.setRazon(movimientoRecibido.getRazon());
+        movimiento.setEstado(movimientoRecibido.getEstado());
 
         this.movimientoInventarioService.guardarMovimiento(movimiento);
         return ResponseEntity.ok(movimiento);
